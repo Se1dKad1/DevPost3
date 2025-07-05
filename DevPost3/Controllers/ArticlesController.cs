@@ -34,14 +34,5 @@ namespace DevPost3.Controllers
 
             return Ok(result);
         }
-
-        [HttpPut]
-        [Route("update")]
-        public ActionResult<Article> Update(Article article)
-        {
-            _articleService.Update(article);
-
-            return Ok(article);
-        }
     }
 }
