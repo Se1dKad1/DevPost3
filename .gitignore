@@ -1,0 +1,17 @@
+# IDE
+.vs/
+.vscode/
+*.user
+
+# Build
+DevPost3/bin/
+DevPost3/obj/
+
+# Local settings
+DevPost3/Properties/launchSettings.json
+
+# HTTP Request files (optional)
+DevPost3/*.http
+
+# Global JSON (if not used intentionally)
+DevPost3/global.json
