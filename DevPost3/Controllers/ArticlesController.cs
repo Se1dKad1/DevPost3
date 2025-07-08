@@ -34,5 +34,15 @@ namespace DevPost3.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut("update/{id}")]
+        public ActionResult<Article> Update(int id, [FromBody] Article article)
+        {
+            article.Id = id;
+
+            _articleService.Update(article);
+
+            return NoContent();
+        }
     }
 }
