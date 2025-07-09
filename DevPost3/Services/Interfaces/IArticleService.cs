@@ -6,5 +6,6 @@ namespace DevPost3.Services.Interfaces
     {
         void Create(Article article);
         void Update(Article article);
+        void Delete(int id);
     }
 }

@@ -24,5 +24,11 @@ namespace DevPost3.Repositories.Implementations
             _context.Articles.Update(article);
             _context.SaveChanges();
         }
+
+        public void Delete(int id)
+        {
+            _context.Articles.Remove(new Article { Id = id });
+            _context.SaveChanges();
+        }
     }
 }

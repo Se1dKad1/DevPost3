@@ -40,9 +40,21 @@ namespace DevPost3.Controllers
         {
             article.Id = id;
 
+            if (article.Id != id)
+            {
+                return BadRequest("Article ID mismatch.");
+            }
+
             _articleService.Update(article);
 
-            return NoContent();
+            return Ok();
+        }
+
+        [HttpDelete("delete/{id}")]
+        public ActionResult Delete(int id)
+        {
+            _articleService.Delete(id);
+            return Ok();
         }
     }
 }
