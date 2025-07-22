@@ -28,5 +28,14 @@ namespace DevPost3.Services.Implementations
         {
             _articleRepository.Delete(id);
         }
+
+        public IEnumerable<Article> GetAll()
+        {
+            return _articleRepository.GetAll();
+        }
+        public Article GetById(int id)
+        {
+            return _articleRepository.GetById(id);
+        }
     }
 }

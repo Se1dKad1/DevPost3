@@ -30,5 +30,17 @@ namespace DevPost3.Repositories.Implementations
             _context.Articles.Remove(new Article { Id = id });
             _context.SaveChanges();
         }
+
+        public IEnumerable<Article> GetAll()
+        {
+            var articles = _context.Articles.ToArray<Article>();
+            return articles;
+        }
+
+        public Article GetById(int id)
+        {
+            var article = _context.Articles.FirstOrDefault(a => a.Id == id);
+            return article ?? throw new KeyNotFoundException($"Article with ID {id} not found.");
+        }
     }
 }

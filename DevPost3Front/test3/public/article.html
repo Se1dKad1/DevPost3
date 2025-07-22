@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Статья</title>
+</head>
+<body>
+  <h1 id="title"></h1>
+  <p><strong>Автор:</strong> <span id="author"></span></p>
+  <p><strong>Дата:</strong> <span id="date"></span></p>
+  <p id="content"></p>
+
+  <script>
+    const raw = localStorage.getItem('selectedArticle')
+    if (raw) {
+      const article = JSON.parse(raw)
+      document.getElementById('title').innerText = article.title
+      document.getElementById('author').innerText = article.author
+      document.getElementById('date').innerText = new Date(article.publishedDate).toLocaleDateString()
+      document.getElementById('content').innerText = article.content
+    } else {
+      document.body.innerHTML = '<p>Статья не найдена</p>'
+    }
+  </script>
+</body>
+</html>

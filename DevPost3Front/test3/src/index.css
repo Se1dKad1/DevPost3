@@ -1,0 +1,17 @@
+html {
+  scroll-behavior: smooth;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: transparent; /* Полная прозрачность */
+}
+
+body {
+  background-color: #121212; /* Глубокий тёмный фон */
+  color: white; /* Белый текст по умолчанию */
+  margin: 0;
+  font-family: sans-serif;
+}

@@ -24,12 +24,33 @@ namespace DevPost3
             builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("ReactPolicy", builder =>
+                {
+                    builder.WithOrigins("http://localhost:5173")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials()
+                           .SetIsOriginAllowed(_ => true); // Важно для разработки
+                });
+            });
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/openapi/v1.json", "api");
+                });
             }
+
+
+            app.UseCors("ReactPolicy");
+
+            app.UseStaticFiles();
 
             app.UseHttpsRedirection();
 

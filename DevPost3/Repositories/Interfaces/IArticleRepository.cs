@@ -7,5 +7,7 @@ namespace DevPost3.Repositories.Interfaces
         void Create(Article article);
         void Update(Article article);
         void Delete(int id);
+        IEnumerable<Article> GetAll();
+        Article GetById(int id);
     }
 }
