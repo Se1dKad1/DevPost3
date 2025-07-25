@@ -55,7 +55,7 @@ function ReadArticle() {
         ← Назад к списку
       </button>
 
-      {/* Кнопки управления - теперь гарантированно в одной строке */}
+      {/* Кнопки управления */}
       <div className="article-controls">
         <Link 
           to={`/articles/${id}/edit`}
@@ -82,7 +82,9 @@ function ReadArticle() {
         </div>
         
         <div className="article-content">
-          {article.content}
+          {article.content.split('\n').map((paragraph, index) => (
+            <p key={index}>{paragraph}</p>
+          ))}
         </div>
       </div>
     </div>

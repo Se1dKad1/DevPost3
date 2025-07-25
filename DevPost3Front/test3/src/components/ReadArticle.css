@@ -127,7 +127,12 @@
   line-height: 1.8;
   font-size: 1.1rem;
   color: rgba(255, 255, 255, 0.9);
-  white-space: pre-line;
+  white-space: pre-line; /* Сохраняет переносы строк */
+  word-wrap: break-word; /* Переносит длинные слова */
+}
+
+.article-content p {
+  margin-bottom: 1em;
 }
 
 /* Состояния загрузки/ошибки */

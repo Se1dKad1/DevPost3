@@ -24,23 +24,30 @@ export const getArticleById = async (id) => {
   }
 };
 
-// Новый метод для создания статьи
-export const createArticle = async (formData) => {
+export const createArticle = async (articleData) => {
   try {
     const response = await fetch(`${API_BASE}/articles`, {
       method: 'POST',
-      body: formData, // FormData с текстовыми полями и (опционально) файлом изображения
-      // Не нужно явно указывать Content-Type для FormData!
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(articleData),
+      credentials: 'include' // если используете куки/аутентификацию
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Не удалось создать статью');
+      const errorData = await response.json().catch(() => ({}));
+      const error = new Error(errorData.message || 'Не удалось создать статью');
+      error.response = response;
+      throw error;
     }
 
     return await response.json();
   } catch (error) {
-    console.error('Ошибка при создании статьи:', error);
+    console.error('Ошибка при создании статьи:', {
+      error: error.message,
+      articleData
+    });
     throw error;
   }
 };

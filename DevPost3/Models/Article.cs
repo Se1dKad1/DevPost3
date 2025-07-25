@@ -6,7 +6,7 @@ namespace DevPost3.Models
     {
         public int Id { get; set; }
         [Required]
-        [StringLength(150, MinimumLength = 50)]
+        [StringLength(150, MinimumLength = 70)]
         public string Title { get; set; }
         [Required]
         public string Content { get; set; } = string.Empty;

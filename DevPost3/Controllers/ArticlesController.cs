@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DevPost3.Controllers
 {
-    [EnableCors("ReactPolicy")]
+    [EnableCors("AllowReactApp")]
     [ApiController]
     [Route("[controller]")]
     public class ArticlesController : ControllerBase
