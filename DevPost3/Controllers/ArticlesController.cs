@@ -52,7 +52,7 @@ namespace DevPost3.Controllers
                     Id = article.Id,
                     Title = article.Title,
                     Content = article.Content,
-                    PublishedDate = article.PublishedDate.ToString("yyyy-MM-dd HH:mm"),
+                    PublishedDate = article.PublishedDate.ToString("dd-MM-yyyy HH:mm"),
                     Author = article.Author
                 };
 
@@ -86,7 +86,7 @@ namespace DevPost3.Controllers
                 Title = existingArticle.Title,
                 Content = existingArticle.Content,
                 Author = existingArticle.Author,
-                PublishedDate = existingArticle.PublishedDate.ToString("yyyy-MM-dd HH:mm")
+                PublishedDate = existingArticle.PublishedDate.ToString("dd-MM-yyyy HH:mm")
             });
         }
 
