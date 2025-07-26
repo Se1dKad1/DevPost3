@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createArticle } from '../services/articles';
 import './CreateArticle.css';
 
-function CreateArticle() {
+const CreateArticle = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
     content: '',
     author: '',
-    // image оставлено для будущей реализации, но не используется сейчас
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,32 +25,34 @@ function CreateArticle() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setError('');
+    setError(null);
+    setValidationErrors({});
 
     try {
-      // Подготовка данных для отправки (без изображения)
       const articleData = {
-        title: formData.title,
-        content: formData.content,
-        author: formData.author
-        // image пока не включаем
+        title: formData.title.trim(),
+        content: formData.content.trim(),
+        author: formData.author.trim() || null
       };
 
-      const response = await fetch('https://localhost:4000/articles', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(articleData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Ошибка при создании статьи');
-      }
-
+      await createArticle(articleData);
       navigate('/articles');
     } catch (err) {
-      setError(err.message);
+      console.error('Create article error:', err);
+      
+      if (err.response?.status === 400) {
+        try {
+          const errorData = await err.response.json();
+          if (errorData.Errors) {
+            setValidationErrors(errorData.Errors);
+          }
+          setError(errorData.Message || 'Ошибка валидации');
+        } catch (parseError) {
+          setError('Ошибка при обработке ответа сервера');
+        }
+      } else {
+        setError(err.message || 'Произошла ошибка при создании статьи');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -57,67 +60,82 @@ function CreateArticle() {
 
   return (
     <div className="create-article-container">
-      <h2>Создать новую статью</h2>
-      {error && <div className="error-message">{error}</div>}
+      <h1>Создать новую статью</h1>
       
-      <form onSubmit={handleSubmit}>
+      {error && (
+        <div className="error-message">
+          {error}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="create-article-form">
         <div className="form-group">
-          <label htmlFor="title">Заголовок*:</label>
+          <label htmlFor="title">Заголовок *</label>
           <input
+            type="text"
             id="title"
             name="title"
-            type="text"
             value={formData.title}
             onChange={handleChange}
             required
+            disabled={isSubmitting}
           />
+          {validationErrors.Title && (
+            <div className="validation-error">
+              {validationErrors.Title.join(', ')}
+            </div>
+          )}
         </div>
-
+        
         <div className="form-group">
-          <label htmlFor="content">Содержание*:</label>
+          <label htmlFor="content">Содержание *</label>
           <textarea
             id="content"
             name="content"
             value={formData.content}
             onChange={handleChange}
             required
+            rows={10}
+            disabled={isSubmitting}
           />
+          {validationErrors.Content && (
+            <div className="validation-error">
+              {validationErrors.Content.join(', ')}
+            </div>
+          )}
         </div>
-
+        
         <div className="form-group">
-          <label htmlFor="author">Автор*:</label>
+          <label htmlFor="author">Автор</label>
           <input
+            type="text"
             id="author"
             name="author"
-            type="text"
             value={formData.author}
             onChange={handleChange}
-            required
+            disabled={isSubmitting}
           />
+          {validationErrors.Author && (
+            <div className="validation-error">
+              {validationErrors.Author.join(', ')}
+            </div>
+          )}
         </div>
-
-        {/* Поле для изображения (закомментировано для будущего использования) */}
-        {/*
-        <div className="form-group">
-          <label htmlFor="image">Изображение:</label>
-          <input
-            id="image"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-          <p className="hint">Необязательное поле</p>
-        </div>
-        */}
-
-        <div className="form-buttons">
-          <button type="submit" disabled={isSubmitting}>
+        
+        <div className="form-actions">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="submit-button"
+          >
             {isSubmitting ? 'Создание...' : 'Создать статью'}
           </button>
+          
           <button
             type="button"
             onClick={() => navigate('/articles')}
-            style={{ marginLeft: '12px' }}
+            disabled={isSubmitting}
+            className="cancel-button"
           >
             Отмена
           </button>
@@ -125,6 +143,6 @@ function CreateArticle() {
       </form>
     </div>
   );
-}
+};
 
 export default CreateArticle;

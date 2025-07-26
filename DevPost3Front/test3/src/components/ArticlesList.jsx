@@ -31,7 +31,7 @@ function ArticlesList() {
       <header className="articles-header">
         <h1>Статьи</h1>
         <Link to="/articles/create" className="create-article-button">
-          Создать статью
+          Написать статью
         </Link>
       </header>
 

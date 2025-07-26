@@ -26,13 +26,13 @@ namespace DevPost3
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("ReactPolicy", builder =>
+                options.AddPolicy("AllowReactApp", builder =>
                 {
                     builder.WithOrigins("http://localhost:5173")
                            .AllowAnyHeader()
                            .AllowAnyMethod()
                            .AllowCredentials()
-                           .SetIsOriginAllowed(_ => true); // Важно для разработки
+                           .SetIsOriginAllowed(_ => true);
                 });
             });
 
@@ -48,7 +48,7 @@ namespace DevPost3
             }
 
 
-            app.UseCors("ReactPolicy");
+            app.UseCors("AllowReactApp");
 
             app.UseStaticFiles();
 
