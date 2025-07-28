@@ -2,6 +2,10 @@ DevPost3 – это учебный веб-проект, разработанны
 
 DevPost3 is a web project designed to help you practice building a full-fledged CRUD (Create, Read, Update, Delete) application. It is a simple article publishing platform with basic content management features.
 
+<<<<<<< HEAD
 origin
 
 working directory
+=======
+github
+>>>>>>> github/master
